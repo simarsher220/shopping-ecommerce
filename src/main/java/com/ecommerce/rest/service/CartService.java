@@ -5,7 +5,6 @@ import com.ecommerce.rest.entity.*;
 import com.ecommerce.rest.mapper.CartProductMapper;
 import com.ecommerce.rest.dao.CartRepository;
 import com.ecommerce.rest.dao.UserProductRepository;
-import org.codejudge.product.entity.*;
 import com.ecommerce.rest.error.exception.GenericException;
 import com.ecommerce.rest.mapper.CartMapper;
 import com.ecommerce.rest.mapper.UserMapper;
