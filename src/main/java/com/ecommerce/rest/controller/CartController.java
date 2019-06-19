@@ -1,13 +1,11 @@
 package com.ecommerce.rest.controller;
 
-import com.ecommerce.rest.model.cart.CartResponse;
-import com.ecommerce.rest.service.CartService;
-import com.ecommerce.rest.entity.Cart;
 import com.ecommerce.rest.error.exception.GenericException;
 import com.ecommerce.rest.model.cart.AddProductRequest;
-import com.ecommerce.rest.model.cart.CreateCartResponse;
+import com.ecommerce.rest.model.cart.CartResponse;
 import com.ecommerce.rest.model.cart.UpdateProductRequest;
 import com.ecommerce.rest.model.common.SuccessResponse;
+import com.ecommerce.rest.service.CartService;
 import com.ecommerce.rest.service.ProductService;
 import com.ecommerce.rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
