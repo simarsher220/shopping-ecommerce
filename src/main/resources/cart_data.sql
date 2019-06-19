@@ -9,3 +9,5 @@ insert into product(product_id, category_id, product_name, quantity, price, imag
 insert into product(product_id, category_id, product_name, quantity, price, image_url) values ('5', '3', 'Avengers Ultron', '20', '100', 'https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/281980/395677/apitymrvz__10747.1545411570.jpg?c=2&imbypass=on');
 insert into product(product_id, category_id, product_name, quantity, price, image_url) values ('6', '3', 'Bumblebee Action Figure', '20', '100', 'https://n3.sdlcdn.com/imgs/h/s/t/Darling-Toys-2-in-1-SDL547002629-1-4290f.jpeg');
 insert into product(product_id, category_id, product_name, quantity, price, image_url) values ('7', '3', 'Rubiks Cube', '20', '100', 'https://rukminim1.flixcart.com/image/612/612/jmi22kw0/puzzle/d/h/f/1-high-speed-stickerless-3x3-magic-rubik-cube-puzzle-game-toy-original-imaf8g4zyghejjkc.jpeg?q=70');
+
+insert into users(user_id, first_name, last_name, username, email, password) values (random_uuid(), 'John', 'Doe', 'jdoe', 'johndoe@gmail.com', 'jd123!@#');
