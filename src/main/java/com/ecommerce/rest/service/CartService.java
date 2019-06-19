@@ -10,6 +10,7 @@ import com.ecommerce.rest.mapper.CartMapper;
 import com.ecommerce.rest.mapper.UserMapper;
 import com.ecommerce.rest.mapper.UserProductMapper;
 import com.ecommerce.rest.model.cart.AddProductRequest;
+import com.ecommerce.rest.model.cart.CartResponse;
 import com.ecommerce.rest.model.cart.CreateCartResponse;
 import com.ecommerce.rest.model.cart.UpdateProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +39,13 @@ public class CartService {
         this.userProductRepository = userProductRepository;
     }
 
-    public CreateCartResponse createCart(String authorization) throws GenericException {
+    public CartResponse createCart(String authorization) throws GenericException {
         User user = userService.getValidUser(authorization);
         Cart cart = CartMapper.createCartForUser(user);
         cartRepository.saveAndFlush(cart);
         UserMapper.updateUserWithCart(user, cart);
         userService.updateUser(user);
-        return new CreateCartResponse(cart.getCartId(), "created");
+        return CartMapper.getInstanceForCart(cart);
     }
 
     public void addToCart(String authorization, UUID cartId, AddProductRequest request) throws GenericException {
@@ -113,9 +114,10 @@ public class CartService {
         clearCart(authorization, cartId);
     }
 
-    public Cart getCart(String authorization, UUID cartId) throws GenericException {
+    public CartResponse getCart(String authorization, UUID cartId) throws GenericException {
         userService.getValidUser(authorization);
-        return cartRepository.findByCartId(cartId);
+        Cart cart = cartRepository.findByCartId(cartId);
+        return CartMapper.getInstanceForCart(cart);
     }
 
     private void update(Cart cart, Product product, CartProduct cartProduct, Integer quantity, boolean operation) {

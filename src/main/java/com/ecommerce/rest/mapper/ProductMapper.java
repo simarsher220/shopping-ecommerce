@@ -14,11 +14,6 @@ public class ProductMapper {
         return productsResponse;
     }
 
-    public static Product getProductForCart(Product product) {
-        Product cartProduct = product;
-        cartProduct.setQuantity(1);
-        return cartProduct;
-    }
 
     public static ProductResponse getProductResponseForProduct(Product product) {
         ProductResponse productResponse = new ProductResponse();

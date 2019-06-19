@@ -1,13 +1,12 @@
 package com.ecommerce.rest.controller;
 
-import com.ecommerce.rest.entity.Product;
 import com.ecommerce.rest.error.exception.GenericException;
 import com.ecommerce.rest.model.common.SuccessResponse;
+import com.ecommerce.rest.model.product.ProductResponse;
 import com.ecommerce.rest.model.product.ProductsResponse;
 import com.ecommerce.rest.model.product.PurchasedProductsResponse;
 import com.ecommerce.rest.model.product.RateProductRequest;
 import com.ecommerce.rest.service.ProductService;
-import com.ecommerce.rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +15,10 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
 
     private ProductService productService;
-    private UserService userService;
 
     @Autowired
-    public ProductController(ProductService productService, UserService userService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.userService = userService;
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,8 +27,8 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products/{product_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Product getProductById(@PathVariable("product_id") Integer productId) {
-        return productService.getProductById(productId);
+    public ProductResponse getProductByProductId(@PathVariable("product_id") Integer productId) {
+        return productService.getProductByProductId(productId);
     }
 
     @RequestMapping(value = "/purchased_products", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

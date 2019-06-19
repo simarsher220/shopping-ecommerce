@@ -8,6 +8,7 @@ import com.ecommerce.rest.entity.User;
 import com.ecommerce.rest.error.exception.GenericException;
 import com.ecommerce.rest.mapper.ProductMapper;
 import com.ecommerce.rest.mapper.UserProductMapper;
+import com.ecommerce.rest.model.product.ProductResponse;
 import com.ecommerce.rest.model.product.ProductsResponse;
 import com.ecommerce.rest.model.product.PurchasedProductsResponse;
 import com.ecommerce.rest.model.product.RateProductRequest;
@@ -94,5 +95,10 @@ public class ProductService {
 
     public void updateProduct(Product product) {
         productRepository.saveAndFlush(product);
+    }
+
+    public ProductResponse getProductByProductId(Integer productId) {
+        Product product = getProductById(productId);
+        return ProductMapper.getProductResponseForProduct(product);
     }
 }

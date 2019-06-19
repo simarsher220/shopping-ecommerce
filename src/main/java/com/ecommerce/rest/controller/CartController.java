@@ -1,5 +1,6 @@
 package com.ecommerce.rest.controller;
 
+import com.ecommerce.rest.model.cart.CartResponse;
 import com.ecommerce.rest.service.CartService;
 import com.ecommerce.rest.entity.Cart;
 import com.ecommerce.rest.error.exception.GenericException;
@@ -28,7 +29,7 @@ public class CartController {
     }
 
     @RequestMapping(value = "/create_cart", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CreateCartResponse createCart(@RequestHeader("Authorization") String authorization) throws GenericException {
+    public CartResponse createCart(@RequestHeader("Authorization") String authorization) throws GenericException {
         return cartService.createCart(authorization);
     }
 
@@ -57,7 +58,7 @@ public class CartController {
     }
 
     @RequestMapping(value = "/get_cart/{cart_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Cart getCart(@PathVariable("cart_id") UUID cartId, @RequestHeader("Authorization") String authorization) throws GenericException {
+    public CartResponse getCart(@PathVariable("cart_id") UUID cartId, @RequestHeader("Authorization") String authorization) throws GenericException {
         return cartService.getCart(authorization, cartId);
     }
 }
