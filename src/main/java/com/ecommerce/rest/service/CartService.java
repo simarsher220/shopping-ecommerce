@@ -82,6 +82,8 @@ public class CartService {
         userService.getValidUser(authorization);
         Cart cart = cartRepository.findByCartId(cartId);
         cartProductRepository.deleteByCart(cart);
+        cart.setTotalPrice((double) 0);
+        cartRepository.saveAndFlush(cart);
     }
 
     public void finalizeCart(String authorization, UUID cartId) throws GenericException {
