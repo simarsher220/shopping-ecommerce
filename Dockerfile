@@ -1,13 +1,13 @@
 FROM openjdk:10-jre-slim
 
 LABEL Name="Ecommerce Service" \
-            Product="Carts"
+            Product="Ratings"
 
 EXPOSE 8080
 
 RUN mkdir /container
-COPY build/libs/product-0.0.1-SNAPSHOT.jar /container/carts-api.jar
+COPY build/libs/product-0.0.1-SNAPSHOT.jar /container/ratings-api.jar
 
 WORKDIR /container
 
-ENTRYPOINT exec java $JAVA_OPTS -jar carts-api.jar
+ENTRYPOINT exec java $JAVA_OPTS -jar ratings-api.jar

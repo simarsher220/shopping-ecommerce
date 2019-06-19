@@ -11,3 +11,8 @@ insert into product(product_id, category_id, product_name, quantity, price, imag
 insert into product(product_id, category_id, product_name, quantity, price, image_url) values ('7', '3', 'Rubiks Cube', '20', '100', 'https://rukminim1.flixcart.com/image/612/612/jmi22kw0/puzzle/d/h/f/1-high-speed-stickerless-3x3-magic-rubik-cube-puzzle-game-toy-original-imaf8g4zyghejjkc.jpeg?q=70');
 
 insert into users(user_id, first_name, last_name, username, email, password) values (random_uuid(), 'John', 'Doe', 'jdoe', 'johndoe@gmail.com', 'jd123!@#');
+
+insert into users_product(user_id, product_id) values (select user_id from users where username = 'jdoe', '3');
+insert into users_product(user_id, product_id) values (select user_id from users where username = 'jdoe', '4');
+insert into users_product(user_id, product_id) values (select user_id from users where username = 'jdoe', '1');
+insert into users_product(user_id, product_id) values (select user_id from users where username = 'jdoe', '7');
