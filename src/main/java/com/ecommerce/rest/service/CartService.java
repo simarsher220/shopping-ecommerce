@@ -11,7 +11,6 @@ import com.ecommerce.rest.mapper.UserMapper;
 import com.ecommerce.rest.mapper.UserProductMapper;
 import com.ecommerce.rest.model.cart.AddProductRequest;
 import com.ecommerce.rest.model.cart.CartResponse;
-import com.ecommerce.rest.model.cart.CreateCartResponse;
 import com.ecommerce.rest.model.cart.UpdateProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,17 +53,11 @@ public class CartService {
         Product product = productService.getProductById(request.getProductId());
         if (product.getQuantity() == 0) {
             // TODO product out of stock
+            throw new GenericException("Product out of stock!!", HttpStatus.BAD_REQUEST);
         }
         CartProduct cartProduct = CartProductMapper.getForCartAndProduct(cart, product);
         cartProductRepository.saveAndFlush(cartProduct);
-        update(cart, product, cartProduct, 1, true);
-//        product.setQuantity(product.getQuantity() - 1);
-//        productService.updateProduct(product);
-//        cart.setTotalPrice(cart.getTotalPrice() + product.getPrice());
-//        cartRepository.saveAndFlush(cart);
-//        cartProduct = CartProductMapper.updateForCartAndProduct(cartProduct, cart, product, 1);
-//        cartProductRepository.saveAndFlush(cartProduct);
-
+        update(cart, product, cartProduct, 1);
     }
 
     public void updateCart(String authorization, UUID cartId, Integer productId, UpdateProductRequest request) throws GenericException {
@@ -82,18 +75,7 @@ public class CartService {
         if (product.getQuantity() - quantity < 0) {
             throw new GenericException("Quantity can't be more than in the inventory!!", HttpStatus.BAD_REQUEST);
         }
-        if (quantity < 0) {
-            update(cart, product, cartProduct, quantity, false);
-        }
-        else {
-            update(cart, product, cartProduct, quantity, true);
-        }
-//        product.setQuantity(product.getQuantity() - quantity);
-//        productService.updateProduct(product);
-//        cart.setTotalPrice(cart.getTotalPrice() + (quantity * product.getPrice()));
-//        cartRepository.saveAndFlush(cart);
-//        cartProduct = CartProductMapper.updateForCartAndProduct(cartProduct, cart, product, quantity);
-//        cartProductRepository.saveAndFlush(cartProduct);
+        update(cart, product, cartProduct, quantity);
     }
 
     public void clearCart(String authorization, UUID cartId) throws GenericException {
@@ -120,33 +102,20 @@ public class CartService {
         return CartMapper.getInstanceForCart(cart);
     }
 
-    private void update(Cart cart, Product product, CartProduct cartProduct, Integer quantity, boolean operation) {
-        if (operation) {
-            product.setQuantity(product.getQuantity() - quantity);
-            Double productPrice = product.getPrice();
-            productService.updateProduct(product);
-            cart.setTotalPrice(cart.getTotalPrice() + (quantity * productPrice));
-            cartRepository.saveAndFlush(cart);
-            cartProduct.setProduct(product);
-            cartProduct.setCart(cart);
-            cartProduct.setQuantity(cartProduct.getQuantity() + quantity);
-            cartProductRepository.saveAndFlush(cartProduct);
+    private void update(Cart cart, Product product, CartProduct cartProduct, Integer quantity) {
+        product.setQuantity(product.getQuantity() - quantity);
+        Double productPrice = product.getPrice();
+        productService.updateProduct(product);
+        cart.setTotalPrice(cart.getTotalPrice() + (quantity * productPrice));
+        cartRepository.saveAndFlush(cart);
+        cartProduct.setProduct(product);
+        cartProduct.setCart(cart);
+        cartProduct.setQuantity(cartProduct.getQuantity() + quantity);
+        if (cartProduct.getQuantity() == 0) {
+            cartProductRepository.deleteByCartAndProduct(cart, product);
         }
         else {
-            product.setQuantity(product.getQuantity() + quantity);
-            Double productPrice = product.getPrice();
-            productService.updateProduct(product);
-            cart.setTotalPrice(cart.getTotalPrice() - (quantity * productPrice));
-            cartRepository.saveAndFlush(cart);
-            cartProduct.setProduct(product);
-            cartProduct.setCart(cart);
-            cartProduct.setQuantity(cartProduct.getQuantity() + quantity);
-            if (cartProduct.getQuantity() == 0) {
-                cartProductRepository.deleteByCartAndProduct(cart, product);
-            }
-            else {
-                cartProductRepository.saveAndFlush(cartProduct);
-            }
+            cartProductRepository.saveAndFlush(cartProduct);
         }
     }
 }
