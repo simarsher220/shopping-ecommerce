@@ -51,6 +51,11 @@ public class CartMapper {
                 CartProductResponse cartProductResponse = new CartProductResponse();
                 cartProductResponse.setProductId(cartProduct.getId().getProductId());
                 cartProductResponse.setQuantity(cartProduct.getQuantity());
+                cartProductResponse.setName(cartProduct.getProduct().getName());
+                cartProductResponse.setImageUrl(cartProduct.getProduct().getImageUrl());
+                cartProductResponse.setPrice(cartProduct.getProduct().getPrice());
+                cartProductResponse.setRating(cartProduct.getProduct().getRating());
+                cartProductResponse.setRatedBy(cartProduct.getProduct().getRatedBy());
                 responseList.add(cartProductResponse);
             }
             cartResponse.setProducts(responseList);
