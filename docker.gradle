@@ -24,7 +24,7 @@ task tagAsRemote(type: Exec) {
 }
 
 task pushDockerImage(type: Exec, dependsOn: ['tagAsRemote']) {
-    commandLine "docker", "push", "${buildInformation.remoteRepository}:${buildInformation.tag}"
+    commandLine "docker", "push", "${buildInformation.remoteRepository}:latest"
 }
 
 task publishDockerImage(dependsOn: ['createDockerImage', 'pushDockerImage'])
