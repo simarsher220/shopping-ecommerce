@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CartController {
 
     private CartService cartService;
